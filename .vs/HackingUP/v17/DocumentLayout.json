@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\pop\\source\\repos\\HackingUP\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{ADDF0FD2-4EF3-4C0F-985F-98F7EC7B5DCD}|HackingUP\\HackingUP.csproj|C:\\Users\\pop\\source\\repos\\HackingUP\\hackingup\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{ADDF0FD2-4EF3-4C0F-985F-98F7EC7B5DCD}|HackingUP\\HackingUP.csproj|solutionrelative:hackingup\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADDF0FD2-4EF3-4C0F-985F-98F7EC7B5DCD}|HackingUP\\HackingUP.csproj|c:\\users\\pop\\source\\repos\\hackingup\\hackingup\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADDF0FD2-4EF3-4C0F-985F-98F7EC7B5DCD}|HackingUP\\HackingUP.csproj|solutionrelative:hackingup\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\pop\\source\\repos\\HackingUP\\HackingUP\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "HackingUP\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\pop\\source\\repos\\HackingUP\\HackingUP\\MainWindow.xaml",
+              "RelativeToolTip": "HackingUP\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-20T04:55:28.868Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\pop\\source\\repos\\HackingUP\\HackingUP\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "HackingUP\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\pop\\source\\repos\\HackingUP\\HackingUP\\MainWindow.xaml.cs",
+              "RelativeToolTip": "HackingUP\\MainWindow.xaml.cs",
+              "ViewState": "AQIAAD0AAAAAAAAAAAAuwFcAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-20T04:55:28.411Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
