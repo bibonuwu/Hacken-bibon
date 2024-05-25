@@ -221,13 +221,40 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
+                    
                     <StackPanel>
-                        <Label Content="Doss atack" VerticalAlignment="Top" Margin="0,10,0,0" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        
+                        <Label Content="Doss atack" Margin="0,10,0,0" FontWeight="Bold" HorizontalAlignment="Center"/>
                         <Label Margin="10,0,10,10" >
                             <TextBlock Text="A DDoS (Distributed Denial of Service) attack is a malicious attempt to disrupt the normal traffic of a targeted server, service, or network by overwhelming it with a flood of Internet traffic. This is achieved by using multiple compromised computer systems as sources of attack traffic. These systems can include computers and other networked resources such as IoT devices."
                TextWrapping="Wrap"/>
                         </Label>
-                        <Button Name="OpenExeButton" Content="Open EXE" Click="OpenExeButton_Click" Width="100" Height="30" VerticalContentAlignment="Center" VerticalAlignment="Bottom"/>
+                        
+                        <Button Name="OpenExeButton" Content="Open EXE" Click="OpenExeButton_Click" VerticalContentAlignment="Center" HorizontalAlignment="Center">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
+                                                    <Grid>
+                                                        <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <Label Content="Open Dos" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
+                                                        <!-- Измените значение цвета на нужный при наведении -->
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
                     </StackPanel>
                 </Border>
@@ -265,12 +292,84 @@
                         <StackPanel>
                             <Label Content="Activation key" VerticalAlignment="Top" Margin="0,10,0,0" FontWeight="Bold" HorizontalAlignment="Center"/>
 
-                            <Button  Content="Windows 10/11" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="10,10,10,0" Click="Button_Click"/>
+                            <Button VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="10,10,10,0" Click="Button_Click">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
+                                                        <Grid>
+                                                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Label Content="Windows 10/11" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
+                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                             <ProgressBar x:Name="progressBar" Height="5" Visibility="Collapsed" Foreground="#FF6CCB5F" Background="#FF393D1B" Margin="10,0,10,0"/>
 
-                            <Button  Content="Adobe creative cloud" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="10,10,10,0" Click="Button_Click_1"/>
+                            <Button  VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="10,10,10,0" Click="Button_Click_1">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
+                                                        <Grid>
+                                                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Label Content="Adobe creative cloud" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
+                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
-                            <Button  Content="VMware Workstation" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="10,10,10,0" Click="Button_Click_2"/>
+                            <Button  VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="10,10,10,0" Click="Button_Click_2">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
+                                                        <Grid>
+                                                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Label Content="VMware Workstation" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
+                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
 
                         </StackPanel>
@@ -307,15 +406,137 @@
                     <Grid>
 
                         <StackPanel>
-                            <Button Content="21H2" Click="Button_Click_3" Margin="10,10,10,10"></Button>
+                            <Label Content="AfteReset" Margin="0,10,0,0" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+                            <Button Click="Button_Click_3" Margin="10,10,10,10">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
+                                                        <Grid>
+                                                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Label Content="21H2" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
+                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                             <ProgressBar x:Name="progressBar1" Height="5" Visibility="Collapsed" Foreground="#FF6CCB5F" Background="#FF393D1B" Margin="10,0,10,0"/>
-                            <Button Content="22H2" Margin="10,10,10,10" Click="Button_Click_4"></Button>
+                            <Button Margin="10,10,10,10" Click="Button_Click_4">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
+                                                        <Grid>
+                                                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Label Content="22H2" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
+                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                             <ProgressBar x:Name="progressBar2" Height="5" Visibility="Collapsed" Foreground="#FF6CCB5F" Background="#FF393D1B" Margin="10,0,10,0"/>
-                            <Button Content="Personilization" Margin="10,10,10,10" Click="Button_Click_5"></Button>
+                            <Button Content="Personilization" Margin="10,10,10,10" Click="Button_Click_5">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
+                                                        <Grid>
+                                                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Label Content="Personilization" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
+                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                             <ProgressBar x:Name="progressBar3" Height="5" Visibility="Collapsed" Foreground="#FF6CCB5F" Background="#FF393D1B" Margin="10,0,10,0"/>
 
-                            <Button Content="Dark" Margin="10,10,10,10" Click="Button_Click_6"></Button>
-                            <Button Content="White" Margin="10,10,10,10" Click="Button_Click_7"></Button>
+                            <Button Margin="10,10,10,10" Click="Button_Click_6">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
+                                                        <Grid>
+                                                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Label Content="Dark" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
+                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Margin="10,10,10,10" Click="Button_Click_7">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
+                                                        <Grid>
+                                                            <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Label Content="White" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
+                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
 
                         </StackPanel>

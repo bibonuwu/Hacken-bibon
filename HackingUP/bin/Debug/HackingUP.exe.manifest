@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="HackingUP.exe" size="55768">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="HackingUP.exe" size="60888">
       <assemblyIdentity name="HackingUP" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>WU+YC1EqC7InAhTXR63oiwKaTzwVqv9a925J45ltg3M=</dsig:DigestValue>
+        <dsig:DigestValue>2OSGdHr7Lp9jaG/KHWusLekyg/hm3j3FqFMSVZcBq1E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
