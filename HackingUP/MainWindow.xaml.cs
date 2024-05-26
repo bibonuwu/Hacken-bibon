@@ -1034,6 +1034,22 @@ namespace HackingUP
                 // Добавьте здесь код для неудачной операции, если требуется
             }
         }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            string url = "https://sites.google.com/view/prototypea";
+
+            try
+            {
+                // Открытие URL в браузере по умолчанию
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                // Если произошла ошибка, показываем сообщение
+                MessageBox.Show($"Не удалось открыть ссылку: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 
     // Пример класса WallpaperChanger с методом SetWallpaper
