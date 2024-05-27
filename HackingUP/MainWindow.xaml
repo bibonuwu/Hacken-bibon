@@ -594,6 +594,9 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
+                    <Grid>
+                        <Button Content="Send Hi" Click="Button_Click22"/>
+                    </Grid>
                 </Border>
             </WrapPanel>
         </StackPanel>
