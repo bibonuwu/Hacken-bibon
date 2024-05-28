@@ -280,7 +280,7 @@ namespace HackingUP
             try
             {
                 // Получаем путь к каталогу, где находится исполняемый файл приложения
-                string exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PassDDoS 3.5 x64.exe");
+                string exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PassDDoS.exe");
 
                 // Запускаем exe файл
                 Process.Start(exePath);
