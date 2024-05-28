@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:HackingUP"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"  Background="#FFF9F9F9"
-        Title="MainWindow" Height="700" Width="900">
+        Title="Hacken" Height="700" Width="900">
 
     <Grid>
+     
         <!-- MediaElement для воспроизведения видео на заднем плане -->
         <MediaElement Name="BackgroundVideo" 
                       Source="1.mp4" 
@@ -17,11 +18,11 @@
                       Stretch="Fill" 
                       IsHitTestVisible="False" 
                       Margin="10,10,10,10"
-                      MediaEnded="BackgroundVideo_MediaEnded"/>
+                      MediaEnded="BackgroundVideo_MediaEnded" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
 
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <WrapPanel Orientation="Horizontal">
 
                 <Border Margin="3" Width="260" Height="280" Background="#E5FFFFFF" BorderBrush="#60CDFF" BorderThickness="3" CornerRadius="6">
                     <Border.Triggers>
@@ -82,28 +83,64 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <Button Content="Show WiFi Profiles" Click="ShowWifiProfiles_Click" VerticalAlignment="Bottom" Width="170" Margin="0,0,0,20">
+                        <Button VerticalAlignment="Bottom" Margin="20,0,20,10" Click="ShowWifiProfiles_Click">
                             <Button.Style>
                                 <Style TargetType="Button">
+                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
                                                     <Grid>
                                                         <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                            <Label Content="Show info" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            <Label Content="Show Wifi" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
                                                         </StackPanel>
                                                     </Grid>
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                        <!-- Измените значение цвета на нужный при наведении -->
+                                                        <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.EnterActions>
+                                            <Trigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.ExitActions>
+                                        </Trigger>
+                                    </Style.Triggers>
                                 </Style>
                             </Button.Style>
                         </Button>
@@ -138,6 +175,8 @@
                         </EventTrigger>
                     </Border.Triggers>
                     <Grid>
+                        <Ellipse ToolTip="Hover text" Name="statusCircle" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,50" Fill="Gray"/>
+
                         <StackPanel>
 
                             <Label Content="System info" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" FontWeight="Bold"/>
@@ -221,37 +260,73 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </Border.Triggers>
-                    
+
                     <StackPanel>
-                        
+
                         <Label Content="Doss atack" Margin="0,10,0,0" FontWeight="Bold" HorizontalAlignment="Center"/>
                         <Label Margin="10,0,10,10" >
                             <TextBlock Text="A DDoS (Distributed Denial of Service) attack is a malicious attempt to disrupt the normal traffic of a targeted server, service, or network by overwhelming it with a flood of Internet traffic. This is achieved by using multiple compromised computer systems as sources of attack traffic. These systems can include computers and other networked resources such as IoT devices."
                TextWrapping="Wrap"/>
                         </Label>
-                        
-                        <Button Name="OpenExeButton" Content="Open EXE" Click="OpenExeButton_Click" VerticalContentAlignment="Center" HorizontalAlignment="Center">
+
+                        <Button Name="OpenExeButton" Content="Open EXE" Click="OpenExeButton_Click" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="20,0,20,0">
                             <Button.Style>
                                 <Style TargetType="Button">
+                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
                                                 <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
                                                     <Grid>
                                                         <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                            <Label Content="Open Dos" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                            <Label Content="Doss atack" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
                                                         </StackPanel>
                                                     </Grid>
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                        <!-- Измените значение цвета на нужный при наведении -->
+                                                        <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.EnterActions>
+                                            <Trigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.ExitActions>
+                                        </Trigger>
+                                    </Style.Triggers>
                                 </Style>
                             </Button.Style>
                         </Button>
@@ -263,7 +338,7 @@
 
 
 
-            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <WrapPanel Orientation="Horizontal">
                 <Border Margin="3" Width="260" Height="280" Background="#E5FFFFFF" BorderBrush="#60CDFF" BorderThickness="3" CornerRadius="6">
                     <Border.Triggers>
                         <EventTrigger RoutedEvent="MouseEnter">
@@ -295,25 +370,61 @@
                             <Button VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="10,10,10,0" Click="Button_Click">
                                 <Button.Style>
                                     <Style TargetType="Button">
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
                                                         <Grid>
                                                             <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                                <Label Content="Windows 10/11 | Ofice" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                                <Label Content="Windows 10/11 | Office" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
                                                             </StackPanel>
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </Button.Style>
                             </Button>
@@ -322,25 +433,61 @@
                             <Button  VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="10,10,10,0" Click="Button_Click_1">
                                 <Button.Style>
                                     <Style TargetType="Button">
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
                                                         <Grid>
                                                             <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                                <Label Content="Adobe creative cloud" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                                <Label Content="Adobe Creative Cloud" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
                                                             </StackPanel>
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </Button.Style>
                             </Button>
@@ -348,25 +495,61 @@
                             <Button  VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="10,10,10,0" Click="Button_Click_2">
                                 <Button.Style>
                                     <Style TargetType="Button">
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
                                                         <Grid>
                                                             <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                                <Label Content="VMware Workstation" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                                <Label Content="VMware Workstation" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
                                                             </StackPanel>
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </Button.Style>
                             </Button>
@@ -411,25 +594,61 @@
                             <Button Click="Button_Click_3" Margin="10,10,10,10">
                                 <Button.Style>
                                     <Style TargetType="Button">
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
                                                         <Grid>
                                                             <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                                <Label Content="21H2" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                                <Label Content="21H2 trash" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
                                                             </StackPanel>
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </Button.Style>
                             </Button>
@@ -437,25 +656,61 @@
                             <Button Margin="10,10,10,10" Click="Button_Click_4">
                                 <Button.Style>
                                     <Style TargetType="Button">
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
                                                     <Border x:Name="ContentBorder" Background="#60CDFF" CornerRadius="5">
                                                         <Grid>
                                                             <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                                <Label Content="22H2" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
+                                                                <Label Content="22H2 trash" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
                                                             </StackPanel>
                                                         </Grid>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </Button.Style>
                             </Button>
@@ -463,6 +718,17 @@
                             <Button Content="Personilization" Margin="10,10,10,10" Click="Button_Click_5">
                                 <Button.Style>
                                     <Style TargetType="Button">
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
@@ -475,13 +741,38 @@
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </Button.Style>
                             </Button>
@@ -490,10 +781,21 @@
                                 <Button Margin="10,10,10,10" Click="Button_Click_6" HorizontalContentAlignment="Center" MinWidth="100">
                                     <Button.Style>
                                         <Style TargetType="Button">
+                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Property="Effect">
+                                                <Setter.Value>
+                                                    <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                                </Setter.Value>
+                                            </Setter>
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border x:Name="ContentBorder" Background="#FF003E5B" CornerRadius="5">
+                                                        <Border x:Name="ContentBorder" Background="#FF183A4A" CornerRadius="5">
                                                             <Grid>
                                                                 <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                     <Label Content="Dark" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
@@ -502,23 +804,59 @@
                                                         </Border>
                                                         <ControlTemplate.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                                <!-- Измените значение цвета на нужный при наведении -->
+                                                                <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                             </Trigger>
                                                         </ControlTemplate.Triggers>
                                                     </ControlTemplate>
                                                 </Setter.Value>
                                             </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.EnterActions>
+                                                    <Trigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.ExitActions>
+                                                </Trigger>
+                                            </Style.Triggers>
                                         </Style>
                                     </Button.Style>
                                 </Button>
                                 <Button Margin="10,10,10,10" Click="Button_Click_7" HorizontalContentAlignment="Stretch" MinWidth="100">
                                     <Button.Style>
                                         <Style TargetType="Button">
+                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Property="Effect">
+                                                <Setter.Value>
+                                                    <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                                </Setter.Value>
+                                            </Setter>
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border x:Name="ContentBorder" Background="#FF00AFFF" CornerRadius="5">
+                                                        <Border x:Name="ContentBorder" Background="#FF12B4FD" CornerRadius="5">
                                                             <Grid>
                                                                 <StackPanel Orientation="Horizontal" Margin="5,0,5,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                     <Label Content="White" FontFamily="Poppins" FontSize="14" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" />
@@ -527,22 +865,58 @@
                                                         </Border>
                                                         <ControlTemplate.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                                <!-- Измените значение цвета на нужный при наведении -->
+                                                                <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                             </Trigger>
                                                         </ControlTemplate.Triggers>
                                                     </ControlTemplate>
                                                 </Setter.Value>
                                             </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.EnterActions>
+                                                    <Trigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.ExitActions>
+                                                </Trigger>
+                                            </Style.Triggers>
                                         </Style>
                                     </Button.Style>
                                 </Button>
 
                             </StackPanel>
-                            
+
                             <Button Content="Personilization" Margin="10,10,10,10" Click="Button_Click_8">
                                 <Button.Style>
                                     <Style TargetType="Button">
+                                        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="0" Opacity="0" BlurRadius="0"/>
+                                            </Setter.Value>
+                                        </Setter>
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
@@ -555,13 +929,38 @@
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF" />
-                                                            <!-- Измените значение цвета на нужный при наведении -->
+                                                            <Setter TargetName="ContentBorder" Property="Background" Value="#FF82D7FF"/>
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0.5" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="10" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).ShadowDepth" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).Opacity" To="0" Duration="0:0:0.2"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Button.Effect).BlurRadius" To="0" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </Button.Style>
                             </Button>
@@ -595,7 +994,7 @@
                         </EventTrigger>
                     </Border.Triggers>
                     <Grid>
-                        <Button Content="Send Hi" Click="Button_Click22"/>
+                        <Button Name="sendHiButton" Content="Soon..." Click="Button_Click22" FontSize="20" Background="{x:Null}"/>
                     </Grid>
                 </Border>
             </WrapPanel>
